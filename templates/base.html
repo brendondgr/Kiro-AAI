@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI Transcription and Response UI{% endblock %}</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-white text-gray-800 h-screen flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-gray-900 border-b border-gray-700 p-3 text-white shadow-sm flex-shrink-0 flex justify-between items-center">
+        <h1 class="text-xl font-bold">Navbar</h1>
+        
+        <!-- Audio Settings Dropdown -->
+        <div class="relative">
+            <button id="audio-settings-btn" class="flex items-center space-x-2 bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-md">
+                <span>Audio Settings</span>
+                <svg id="arrow-down" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+                 <svg id="arrow-up" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 hidden" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div id="audio-settings-menu" class="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg z-10 hidden border border-gray-200 text-gray-800">
+                <div class="p-4 space-y-4">
+                    <!-- Input Device -->
+                    <div class="flex items-center space-x-2">
+                        <label for="input-device" class="w-16 font-semibold text-sm">Input</label>
+                        <select id="input-device" class="flex-grow bg-gray-50 border border-gray-300 rounded-md px-3 py-1.5 w-full text-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option>Default Microphone</option>
+                        </select>
+                        <button class="refresh-btn p-1.5 rounded-full hover:bg-gray-200">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="currentColor" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                        </button>
+                    </div>
+                    <!-- Output Device -->
+                    <div class="flex items-center space-x-2">
+                        <label for="output-device" class="w-16 font-semibold text-sm">Output</label>
+                        <select id="output-device" class="flex-grow bg-gray-50 border border-gray-300 rounded-md px-3 py-1.5 w-full text-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option>Default Speakers</option>
+                        </select>
+                        <button class="refresh-btn p-1.5 rounded-full hover:bg-gray-200">
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="currentColor" viewBox="0 0 24 24"><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+                        </button>
+                    </div>
+                    <!-- Always Run Checkbox -->
+                    <div class="flex items-center pt-2">
+                        <input id="always-run" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                        <label for="always-run" class="ml-2 block text-sm font-semibold">Always Run</label>
+                    </div>
+                    <!-- Test Audio Button -->
+                    <div class="pt-2">
+                         <button class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md text-sm">Test Audio</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main container for the rest of the layout -->
+    <div id="main-container" class="flex-grow flex flex-col p-4 gap-1.5 overflow-hidden">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Socket.IO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    
+    <!-- External JavaScript -->
+    <script src="{{ url_for('static', filename='main.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='console.js') }}" defer></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
