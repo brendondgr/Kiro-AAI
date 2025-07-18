@@ -85,6 +85,14 @@ const refreshButtons = document.querySelectorAll('.refresh-btn');
 refreshButtons.forEach(button => {
     button.addEventListener('click', (e) => {
         e.stopPropagation(); // Prevent dropdown from closing
+        
+        // Get the refresh button type from data attribute
+        const refreshType = button.dataset.refreshType;
+        
+        // Emit a WebSocket event with the refresh type information
+        socket.emit('refresh_event', { type: refreshType });
+        
+        // Maintain existing animation functionality
         const svg = button.querySelector('svg');
         svg.classList.add('spinning');
         setTimeout(() => {

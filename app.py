@@ -3,7 +3,7 @@ Flask application entry point for the AI Transcription and Response UI.
 """
 from flask import Flask, render_template, jsonify, request
 from flask_socketio import SocketIO
-from scripts.python.console import Console
+from console import Console
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your-secret-key'
@@ -26,6 +26,31 @@ def handle_connect():
 def handle_disconnect():
     """Handle client disconnection from WebSocket."""
     print('Client disconnected')
+
+@socketio.on('refresh_event')
+def handle_refresh_event(data):
+    """Handle refresh button events from the client."""
+    refresh_type = data.get('type', '')
+    
+    # Determine message based on refresh type
+    if refresh_type == 'stt':
+        message = "Speech-To-Text Models have been refreshed"
+    elif refresh_type == 'tts':
+        message = "Text-To-Speech Models have been refreshed"
+    elif refresh_type == 'llm':
+        message = "LLM Models have been refreshed"
+    elif refresh_type == 'input-device':
+        message = "Input Audio Devices have been refreshed"
+    elif refresh_type == 'output-device':
+        message = "Output Audio Devices have been refreshed"
+    else:
+        message = f"Unknown component has been refreshed: {refresh_type}"
+    
+    # Add message to console
+    formatted_message = console.printl(message)
+    
+    # Broadcast message to all clients
+    socketio.emit('console_message', {'message': formatted_message})
 
 # Console API routes
 @app.route('/api/console/print', methods=['POST'])

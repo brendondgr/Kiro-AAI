@@ -31,3 +31,24 @@ body {
     word-break: break-word;
     line-height: 1.4;
 }
+
+#console-output {
+    min-height: 50px;
+    max-height: 100%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #4a5568 #2d3748;
+}
+
+#console-output::-webkit-scrollbar {
+    width: 8px;
+}
+
+#console-output::-webkit-scrollbar-track {
+    background: #2d3748;
+}
+
+#console-output::-webkit-scrollbar-thumb {
+    background-color: #4a5568;
+    border-radius: 4px;
+}

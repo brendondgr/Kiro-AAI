@@ -103,6 +103,32 @@ socket.on('console_clear', function() {
     clearConsole();
 });
 
+// Add event listener for the clear button
+document.addEventListener('DOMContentLoaded', function() {
+    const clearButton = document.getElementById('clear-console-btn');
+    if (clearButton) {
+        clearButton.addEventListener('click', function() {
+            // Send clear request to server
+            fetch('/api/console/clear', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                // Clear the console locally as well to ensure it's cleared
+                clearConsole();
+            })
+            .catch(error => {
+                console.error('Error clearing console:', error);
+            });
+        });
+    }
+});
+
 // Export functions for testing
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {

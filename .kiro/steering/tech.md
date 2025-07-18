@@ -1,36 +1,61 @@
-# Technology Stack
+# Technical Stack and Development Guidelines
 
-## Frontend
-- **HTML5** - Single-page application structure
-- **Tailwind CSS** - Utility-first CSS framework via CDN
-- **Vanilla JavaScript** - No framework dependencies, pure DOM manipulation
-- **Web APIs** - MediaDevices API for audio device access
+## Technology Stack
+- **Backend**: Python 3.7+ with Flask and Flask-SocketIO
+- **Frontend**: HTML5, Tailwind CSS, Vanilla JavaScript
+- **Communication**: WebSockets via Socket.IO for real-time updates
+- **Architecture**: Single-page application with modular components
 
-## Styling & UI
-- **Tailwind CSS 3.x** - Loaded via CDN (`https://cdn.tailwindcss.com`)
-- **Custom CSS** - Minimal custom styles for resizing handles and animations
-- **Times New Roman** - Primary font family
-- **Responsive Design** - Mobile-first approach with responsive grid layouts
+## Dependencies
+- Flask: Web framework for the backend
+- Flask-SocketIO: WebSocket support for real-time communication
+- Socket.IO (client): JavaScript library for WebSocket communication
 
-## Architecture Patterns
-- **Component-based UI** - Modular panel system (Settings, Transcription, LLM Response, Console)
-- **Event-driven** - DOM event listeners for user interactions
-- **Resizable Layout** - Custom drag-to-resize functionality for panels
-- **Toggle-based Configuration** - Local vs API model selection
+## Development Environment
+- Python virtual environment named "localaia"
+- Modern web browser with WebSocket support
 
-## Build System
-This is a static web application with no build process required.
+## Common Commands
 
-### Development Commands
+### Environment Setup
 ```bash
-# Serve locally (any static server)
-python -m http.server 8000
-# or
-npx serve .
-# or simply open index.html in browser
+# Windows Command Prompt
+setup_env.bat
+
+# Windows PowerShell
+.\setup_env.ps1
+
+# Linux/macOS/WSL
+./setup_env.sh
 ```
 
-### Deployment
-- Static hosting compatible (GitHub Pages, Netlify, Vercel, etc.)
-- No compilation or bundling required
-- Single HTML file deployment
+### Activating the Environment
+```bash
+# Windows Command Prompt
+localaia\Scripts\activate.bat
+
+# Windows PowerShell
+.\localaia\Scripts\Activate.ps1
+
+# Linux/macOS/WSL
+source localaia/bin/activate
+```
+
+### Running the Application
+```bash
+# Start the Flask application
+python app.py
+```
+
+## Code Style Guidelines
+- Follow PEP 8 for Python code
+- Use docstrings for all functions, classes, and modules
+- Maintain consistent 4-space indentation in Python files
+- Use camelCase for JavaScript variables and functions
+- Organize HTML with proper indentation and component structure
+- Prefer Tailwind utility classes for styling
+
+## Testing
+- Use Python's unittest framework for backend testing
+- Test console functionality with test_console.py
+- Frontend JavaScript testing with test_console.js

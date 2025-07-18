@@ -1,51 +1,57 @@
-# Project Structure
+# Project Structure and Organization
 
-## File Organization
+## Directory Structure
 ```
 /
-├── .kiro/                  # Kiro AI assistant configuration
-│   └── steering/          # AI guidance documents
-├── index.html             # Main application file (single-page app)
-└── .gitignore            # Git ignore patterns
+├── app.py                 # Main Flask application entry point
+├── console.py             # Console functionality module
+├── test_console.py        # Tests for console functionality
+├── requirements.txt       # Python dependencies
+├── setup_env.bat          # Windows batch setup script
+├── setup_env.ps1          # Windows PowerShell setup script
+├── setup_env.sh           # Linux/macOS setup script
+├── readme.md              # Project documentation
+│
+├── templates/             # HTML templates
+│   ├── base.html          # Base template with common structure
+│   ├── index.html         # Main application page
+│   └── components/        # Reusable UI components
+│       └── console.html   # Console component template
+│
+├── static/                # Static assets
+│   ├── styles.css         # Custom CSS styles
+│   ├── main.js            # Main JavaScript functionality
+│   ├── console.js         # Console-specific JavaScript
+│   └── test_console.js    # Tests for console JavaScript
+│
+└── .kiro/                 # Kiro AI assistant configuration
+    └── steering/          # AI guidance documents
 ```
 
-## Code Organization within index.html
+## Component Architecture
+- **Backend Components**:
+  - `app.py`: Flask application setup, routes, and WebSocket handlers
+  - `console.py`: Console class for message management and formatting
 
-### HTML Structure
-- **Navbar** - Audio settings dropdown and branding
-- **Settings Panel** - Model configuration (STT, TTS, LLM)
-- **Main Content Area** - Split between Transcription and LLM Response
-- **Console Panel** - System output and logging
+- **Frontend Components**:
+  - **Templates**: HTML structure using Jinja2 templating
+    - Base template with common elements
+    - Component-based structure for reusability
+  - **JavaScript Modules**:
+    - UI interaction and event handling
+    - WebSocket communication
+    - Panel resizing functionality
+    - Console message management
 
-### CSS Structure
-- **External Dependencies** - Tailwind CSS via CDN
-- **Custom Styles** - Embedded `<style>` block for:
-  - Resizer handle styling
-  - Animation keyframes
-  - Font family overrides
-  - Layout-specific adjustments
+## Data Flow
+1. User interacts with the UI (audio input, settings changes)
+2. Frontend JavaScript captures events and sends to backend via API/WebSockets
+3. Backend processes requests and updates state
+4. Updates are broadcast to connected clients via WebSockets
+5. Frontend updates UI based on received events
 
-### JavaScript Structure
-- **Resizing Logic** - Panel resize functionality with mouse events
-- **Settings Logic** - Model toggle switches (Local/API)
-- **UI Interactions** - Dropdown menus, refresh buttons
-- **Event Handlers** - Mouse events, click handlers
-
-## Conventions
-
-### CSS Classes
-- Use Tailwind utility classes for styling
-- Custom classes prefixed with descriptive names (`resizer-x`, `resizer-y`, `no-select`)
-- Consistent color scheme: blue for primary, gray for neutral
-
-### JavaScript
-- Use `const` for DOM element references
-- Event listeners attached via `addEventListener`
-- Modular functions for specific interactions
-- Clear variable naming with camelCase
-
-### HTML
-- Semantic HTML5 elements
-- Consistent ID naming with kebab-case
-- Accessible form elements with proper labels
-- SVG icons embedded inline for performance
+## Extension Points
+- Add new AI model integrations in the settings panels
+- Create additional UI components in the templates/components directory
+- Extend the Console class for additional logging functionality
+- Add new API endpoints in app.py for additional features
