@@ -78,15 +78,11 @@ def console_print():
 def console_clear():
     """API endpoint for clearing the console."""
     try:
-        # Clear the console
-        console.clear()
+        # Clear the console and get the "cleared" message
+        cleared_message = console.clear()
         
-        # Emit the clear event to all connected clients
-        socketio.emit('console_clear')
-        
-        # Emit the "Console Cleared" message
-        if console.messages:
-            socketio.emit('console_message', {'message': console.messages[-1]})
+        # Emit the "Console Cleared" message to all clients
+        socketio.emit('console_message', {'message': cleared_message})
         
         return jsonify({"status": "success"})
     except Exception as e:

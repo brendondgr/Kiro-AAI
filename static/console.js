@@ -108,22 +108,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const clearButton = document.getElementById('clear-console-btn');
     if (clearButton) {
         clearButton.addEventListener('click', function() {
-            // Send clear request to server
+            // Immediately clear the console on the client-side
+            clearConsole();
+
+            // Send clear request to server to clear its log and get confirmation
             fetch('/api/console/clear', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({}) // Add an empty body for robustness
             })
             .then(response => {
                 if (!response.ok) {
+                    console.error('Network response was not ok', response);
                     throw new Error('Network response was not ok');
                 }
-                // Clear the console locally as well to ensure it's cleared
-                clearConsole();
+                // The server will now only send back a 'console_message' with the confirmation
             })
             .catch(error => {
                 console.error('Error clearing console:', error);
+                // Optionally, restore the console or show an error message
             });
         });
     }

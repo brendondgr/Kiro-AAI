@@ -55,19 +55,21 @@ class Console:
         
         return formatted_message
     
-    def clear(self) -> None:
+    def clear(self) -> str:
         """
         Clear all messages from the console and add a 'Console Cleared' message.
         
         Returns:
-            None
+            The formatted "Console Cleared" message
         """
+        # Print Message.
+        print("Console Cleared Button Triggered")
+        
         # Clear all messages
         self.messages = []
         
-        # Add the "Console Cleared" message
-        # This will be displayed after the console is cleared
-        self.printl("Console Cleared")
+        # Add the "Console Cleared" message and return it
+        return self.printl("Console Cleared")
     
     def to_dict(self) -> Dict[str, Any]:
         """
